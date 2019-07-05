@@ -1,42 +1,60 @@
-var awsIot = require('aws-iot-device-sdk');
+const awsIot = require('aws-iot-device-sdk');
 const {exec} = require("child_process");
-const KEY_PATH = "2010c423a3-private.pem.key"
-const CERT_PATH = "2010c423a3-certificate.pem.crt.txt"
-const ROOT_CA = "AmazonRootCA1.pem"
-const HOST_NAME = "ajc6rxicdx8rv-ats.iot.us-east-2.amazonaws.com"
-const CLIENT_ID = "ColorPiRpi"
-
-
+const AWS = require("aws-sdk");
+const dotenv = require("dotenv");
+const fs = require("fs");
+dotenv.config();
 
 var opts = {
-    keyPath: KEY_PATH,
-    certPath: CERT_PATH,
-    caPath: ROOT_CA,
-    clientId: CLIENT_ID,
-    host: HOST_NAME
+    keyPath: process.env.KEY_PATH,
+    certPath: process.env.CERT_PATH,
+    caPath: process.env.ROOT_CA,
+    clientId: process.env.CLIENT_ID,
+    host: process.env.HOST_NAME
 }
-var thingShadows = awsIot.thingShadow(opts);
+var thingShadow = awsIot.thingShadow(opts);
 var clientTokenUpdate;
 
-thingShadows.on("connect", 
+AWS.config.update({
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY
+});
+
+var s3 = new AWS.S3();
+
+thingShadow.on("connect", 
     function() {
-        thingShadows.register("ColorPiRpi", {persistentSubscribe: true}, function() {
+        thingShadow.register("ColorPiRpi", {persistentSubscribe: true}, function() {
             let rgbLedLampState = {"state":{"desired":{"r": 0, "g": 0, "b": 0}}};
-            clientTokenUpdate = thingShadows.update("ColorPiRpi", rgbLedLampState);
+            clientTokenUpdate = thingShadow.update("ColorPiRpi", rgbLedLampState);
             console.log(clientTokenUpdate)
         })
     })
 
-thingShadows.on('delta', 
+thingShadow.on('delta', 
     function(thingName, stateObject) {
        console.log('received delta on '+thingName+': '+
                    JSON.stringify(stateObject));
-	var r = stateObject.state.r;
-	var g = stateObject.state.g;
-	var b = stateObject.state.b;
-	var timestamp = Date.now();
-	var filename = `img${timestamp}.jpg`;
-	var cmd = `raspistill -o ${filename}`;
-	exec(cmd);
+        var r = stateObject.state.r;
+        var g = stateObject.state.g;
+        var b = stateObject.state.b;
+        var timestamp = Date.now();
+        var filename = `img${timestamp}.jpg`;
+        var cmd = `raspistill -o ${filename}`;
+        exec(cmd);
+        let path = `./${filename}`
+        fs.readFile(path, function(err, fileBuff) {
+            let params = {
+                Bucket: "colorpi",
+                Key: filename,
+                Body: fileBuff
+            };
+            s3.putObject(params, function(s3err, s3res) {
+                if (s3err) {
+                    console.err("Error: ", s3err);
+                } else {
+                    console.log(s3res);
+                }
+            })
+        })
     });
-§
