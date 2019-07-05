@@ -38,6 +38,9 @@ thingShadow.on('delta',
         var r = stateObject.state.r;
         var g = stateObject.state.g;
         var b = stateObject.state.b;
+	var colorCmd = `python rgbexp.py ${r} ${g} ${b}`;
+	console.log(colorCmd);
+	exec(colorCmd);
         var timestamp = Date.now();
         var filename = `img${timestamp}.jpg`;
         var cmd = `raspistill -o ${filename}`;
