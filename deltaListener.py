@@ -47,7 +47,7 @@ class shadowCallbackContainer:
         print(r, g, b)
         pid_file = open("pid", "r")
         pid = pid_file.read()
-        check_pid(pid)
+        self.check_pid(pid)
         p = Process(target=rgbexp.main, args=(r, g, b))
         p.start()
         p.join()
@@ -60,7 +60,7 @@ class shadowCallbackContainer:
         self.deviceShadowInstance.shadowUpdate(newPayload, None, 5)
         print("Sent.")
 
-    def check_pid(pid):
+    def check_pid(self, pid):
         try:
             os.kill(pid, signal.SIGTERM)
         except OSError:
