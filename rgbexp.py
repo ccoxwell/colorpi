@@ -5,6 +5,7 @@ import sys
 import logging
 import os
 
+print("the pid of rgbexp.py is " + str(os.getpid()))
 logging.basicConfig(filename="rgb.log")
 
 logging.debug("running")
