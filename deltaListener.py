@@ -24,6 +24,8 @@ import argparse
 import os
 import rgbexp
 import signal
+import subprocess
+import datetime
 
 print("the pid of deltaListener.py is " + str(os.getpid()))
 class shadowCallbackContainer:
@@ -51,6 +53,9 @@ class shadowCallbackContainer:
         p = Process(target=rgbexp.main, args=(r, g, b))
         p.start()
         p.join()
+        img_filename = "img%s.jpg" % (datetime.datetime.now())
+        cmd = "raspistill -o %s" % (img_filename)
+        subprocess.call(cmd)
         # rgbexp.main(r, g, b)
         # print(str(os.getpid()))
         # cmd = "python rgbexp.py %s %s %s" % (r, g, b)
