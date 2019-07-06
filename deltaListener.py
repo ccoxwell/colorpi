@@ -36,9 +36,9 @@ class shadowCallbackContainer:
         deltaMessage = json.dumps(payloadDict["state"])
         print(deltaMessage)
         rgb = payloadDict["state"]
-        r = payloadDict["r"]
-        g = payloadDict["g"]
-        b = payloadDict["b"]
+        r = rgb["r"]
+        g = rgb["g"]
+        b = rgb["b"]
         print(r, g, b)
         print("Request to update the reported state...")
         newPayload = '{"state":{"reported":' + deltaMessage + '}}'
