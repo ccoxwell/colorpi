@@ -5,10 +5,7 @@ import sys
 import logging
 import os
 
-print("the pid of rgbexp.py is " + str(os.getpid()))
-f = open("pid", "w")
-f.write(str(os.getpid()))
-f.close()
+
 logging.basicConfig(filename="rgb.log")
 
 logging.debug("running")
@@ -74,6 +71,10 @@ def destroy():
 	GPIO.cleanup()
 
 def main(r_value, g_value, b_value):
+	print("the pid of rgbexp.py is " + str(os.getpid()))
+	f = open("pid", "w")
+	f.write(str(os.getpid()))
+	f.close()
 	try:
 		setup(R, G, B)
 		loop(r_value, g_value, b_value)
