@@ -30,18 +30,19 @@ class shadowCallbackContainer:
     def __init__(self, deviceShadowInstance):
         self.deviceShadowInstance = deviceShadowInstance
 
-    def check_pid(pid):
-        try:
-            os.kill(pid, signal.SIGTERM)
-        except OSError:
-            return False
-        else:
-            return True
+
 
     # Custom Shadow callback
     def customShadowCallback_Delta(self, payload, responseStatus, token):
         # payload is a JSON string ready to be parsed using json.loads(...)
         # in both Py2.x and Py3.x
+            def check_pid(pid):
+                try:
+                    os.kill(pid, signal.SIGTERM)
+                except OSError:
+                    return False
+                else:
+                    return True
         print("Received a delta message:")
         payloadDict = json.loads(payload)
         deltaMessage = json.dumps(payloadDict["state"])
@@ -53,7 +54,7 @@ class shadowCallbackContainer:
         print(r, g, b)
         pid_file = open("pid", "r")
         pid = pid_file.read()
-        self.check_pid(pid)
+        check_pid(pid)
         p = Process(target=rgbexp.main, args=(r, g, b))
         p.start()
         p.join()
