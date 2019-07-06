@@ -61,6 +61,7 @@ class shadowCallbackContainer:
         print("Sent.")
 
     def check_pid(self, pid):
+        pid = int(pid)
         try:
             os.kill(pid, signal.SIGTERM)
         except OSError:
