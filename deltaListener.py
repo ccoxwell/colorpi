@@ -16,6 +16,7 @@
  '''
 
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
+from multiprocessing import Process, Queue
 import logging
 import time
 import json
@@ -41,8 +42,9 @@ class shadowCallbackContainer:
         g = rgb["g"]
         b = rgb["b"]
         print(r, g, b)
-        rgbexp.main(r, g, b)
-        print(str(os.getpid()))
+        p = Process(target=rgbexp.main, args=(r, g, b))
+        # rgbexp.main(r, g, b)
+        # print(str(os.getpid()))
         # cmd = "python rgbexp.py %s %s %s" % (r, g, b)
         # os.execl("python", "rgbexp.py", str(r), str(g), str(b))
         print("Request to update the reported state...")
