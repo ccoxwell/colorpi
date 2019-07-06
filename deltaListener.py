@@ -25,7 +25,7 @@ import os
 import rgbexp
 import signal
 
-
+print("the pid of rgbexp.py is " + str(os.getpid()))
 class shadowCallbackContainer:
     def __init__(self, deviceShadowInstance):
         self.deviceShadowInstance = deviceShadowInstance
