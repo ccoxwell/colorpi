@@ -55,7 +55,7 @@ class shadowCallbackContainer:
         p.join()
         img_filename = "img%s.jpg" % (datetime.datetime.now())
         cmd = "raspistill -o %s" % (img_filename)
-        subprocess.call(cmd)
+        subprocess.call(cmd, shell=True)
         # rgbexp.main(r, g, b)
         # print(str(os.getpid()))
         # cmd = "python rgbexp.py %s %s %s" % (r, g, b)
