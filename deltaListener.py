@@ -23,6 +23,7 @@ import json
 import argparse
 import os
 import rgbexp
+import signal
 
 
 class shadowCallbackContainer:
@@ -42,6 +43,9 @@ class shadowCallbackContainer:
         g = rgb["g"]
         b = rgb["b"]
         print(r, g, b)
+        pid_file = open("pid", "r")
+        pid = pid_file.read()
+        os.kill(pid, signal.SIGTERM)
         p = Process(target=rgbexp.main, args=(r, g, b))
         p.start()
         p.join()
