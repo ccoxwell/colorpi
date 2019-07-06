@@ -43,6 +43,8 @@ class shadowCallbackContainer:
         b = rgb["b"]
         print(r, g, b)
         p = Process(target=rgbexp.main, args=(r, g, b))
+        p.start()
+        p.join()
         # rgbexp.main(r, g, b)
         # print(str(os.getpid()))
         # cmd = "python rgbexp.py %s %s %s" % (r, g, b)
