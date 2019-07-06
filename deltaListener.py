@@ -30,6 +30,14 @@ class shadowCallbackContainer:
     def __init__(self, deviceShadowInstance):
         self.deviceShadowInstance = deviceShadowInstance
 
+    def check_pid(pid):
+    try:
+        os.kill(pid, signal.SIGTERM)
+    except OSError:
+        return False
+    else:
+        return True
+
     # Custom Shadow callback
     def customShadowCallback_Delta(self, payload, responseStatus, token):
         # payload is a JSON string ready to be parsed using json.loads(...)
@@ -58,13 +66,7 @@ class shadowCallbackContainer:
         self.deviceShadowInstance.shadowUpdate(newPayload, None, 5)
         print("Sent.")
 
-    def check_pid(pid):
-        try:
-            os.kill(pid, signal.SIGTERM)
-        except OSError:
-            return False
-        else:
-            return True
+
 
 # Read in command-line parameters
 parser = argparse.ArgumentParser()
