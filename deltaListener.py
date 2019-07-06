@@ -53,7 +53,7 @@ class shadowCallbackContainer:
         print(r, g, b)
         pid_file = open("pid", "r")
         pid = pid_file.read()
-        check_pid(pid)
+        self.check_pid(pid)
         p = Process(target=rgbexp.main, args=(r, g, b))
         p.start()
         p.join()
