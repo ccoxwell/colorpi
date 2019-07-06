@@ -31,12 +31,12 @@ class shadowCallbackContainer:
         self.deviceShadowInstance = deviceShadowInstance
 
     def check_pid(pid):
-    try:
-        os.kill(pid, signal.SIGTERM)
-    except OSError:
-        return False
-    else:
-        return True
+        try:
+            os.kill(pid, signal.SIGTERM)
+        except OSError:
+            return False
+        else:
+            return True
 
     # Custom Shadow callback
     def customShadowCallback_Delta(self, payload, responseStatus, token):
