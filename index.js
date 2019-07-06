@@ -25,7 +25,7 @@ var s3 = new AWS.S3();
 thingShadow.on("connect", 
     function() {
         thingShadow.register("ColorPiRpi", {persistentSubscribe: true}, function() {
-            let rgbLedLampState = {"state":{"desired":{"r": 0, "g": 0, "b": 0}}};
+            let rgbLedLampState = {"state":{"desired":{"r": 255, "g": 0, "b": 255}}};
             clientTokenUpdate = thingShadow.update("ColorPiRpi", rgbLedLampState);
             console.log(clientTokenUpdate)
         })
@@ -38,7 +38,7 @@ thingShadow.on('delta',
         var r = stateObject.state.r;
         var g = stateObject.state.g;
         var b = stateObject.state.b;
-	var colorCmd = `python rgbexp.py ${r} ${g} ${b}`;
+	var colorCmd = `os.execl(python rgbexp.py ${r} ${g} ${b})`;
 	console.log(colorCmd);
 	exec(colorCmd);
         var timestamp = Date.now();

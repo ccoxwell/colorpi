@@ -2,8 +2,13 @@
 import RPi.GPIO as GPIO
 import time
 import sys
+import logging
+import os
 
-colors = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF]
+logging.basicConfig(filename="rgb.log")
+
+logging.debug("running")
+
 R = 11
 G = 13
 B = 15
@@ -41,12 +46,12 @@ def setColor():   # For example : col = 0x112233
 	G_val = map(g_value, 0, 255, 0, 100)
 	B_val = map(b_value, 0, 255, 0, 100)
 
-	print "R_val "
-	print  R_val
-	print "G_val "
-	print  G_val
-	print "B_val "
-	print  B_val
+	logging.debug("R_val ")
+	logging.debug(R_val)
+	logging.debug("G_val ")
+	logging.debug(G_val)
+	logging.debug("B_val ")
+	logging.debug(B_val)
 	
 	p_R.ChangeDutyCycle(R_val)     # Change duty cycle
 	p_G.ChangeDutyCycle(G_val)
@@ -57,6 +62,7 @@ def loop():
 		setColor()
 
 def destroy():
+	logging.debug("end it")
 	p_R.stop()
 	p_G.stop()
 	p_B.stop()
