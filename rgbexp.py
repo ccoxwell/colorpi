@@ -7,7 +7,7 @@ import os
 
 print("the pid of rgbexp.py is " + str(os.getpid()))
 f = open("pid", "w")
-f.write(os.getpid())
+f.write(str(os.getpid()))
 f.close()
 logging.basicConfig(filename="rgb.log")
 
