@@ -13,9 +13,9 @@ R = 11
 G = 13
 B = 15
 
-# r_value = int(sys.argv[1])
-# g_value = int(sys.argv[2])
-# b_value = int(sys.argv[3])
+r_value = int(sys.argv[1])
+g_value = int(sys.argv[2])
+b_value = int(sys.argv[3])
 
 def setup(Rpin, Gpin, Bpin):
 	global pins
@@ -41,7 +41,7 @@ def off():
 	for i in pins:
 		GPIO.output(pins[i], GPIO.HIGH)    # Turn off all leds
 
-def setColor(r_value, g_value, b_value):   # For example : col = 0x112233
+def setColor():   # For example : col = 0x112233
 	R_val = map(r_value, 0, 255, 0, 100)
 	G_val = map(g_value, 0, 255, 0, 100)
 	B_val = map(b_value, 0, 255, 0, 100)
@@ -69,12 +69,12 @@ def destroy():
 	off()
 	GPIO.cleanup()
 
-def main(r_value, g_value, b_value):
+def main():
 	try:
 		setup(R, G, B)
-		loop(r_value, g_value, b_value)
+		loop()
 	except KeyboardInterrupt:
 		destroy()
 
 if __name__ == "__main__":
-	main(r_value, g_value, b_value)	
+	main()	
