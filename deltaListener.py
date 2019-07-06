@@ -20,6 +20,7 @@ import logging
 import time
 import json
 import argparse
+import rgbexp
 
 
 class shadowCallbackContainer:
@@ -34,6 +35,10 @@ class shadowCallbackContainer:
         payloadDict = json.loads(payload)
         deltaMessage = json.dumps(payloadDict["state"])
         print(deltaMessage)
+        r = deltaMessage["rgb"]["r"]
+        g = deltaMessage["rgb"]["g"]
+        b = deltaMessage["rgb"]["b"]
+        print(r, g, b)
         print("Request to update the reported state...")
         newPayload = '{"state":{"reported":' + deltaMessage + '}}'
         self.deviceShadowInstance.shadowUpdate(newPayload, None, 5)
