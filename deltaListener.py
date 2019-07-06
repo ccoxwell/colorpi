@@ -43,6 +43,7 @@ class shadowCallbackContainer:
                     return False
                 else:
                     return True
+                    
         print("Received a delta message:")
         payloadDict = json.loads(payload)
         deltaMessage = json.dumps(payloadDict["state"])
