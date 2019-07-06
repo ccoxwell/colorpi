@@ -45,10 +45,7 @@ class shadowCallbackContainer:
         print(r, g, b)
         pid_file = open("pid", "r")
         pid = pid_file.read()
-        try: 
-            os.kill(int(pid), signal.SIGTERM)
-        except OSError:
-            continue
+        check_pid(pid)
         p = Process(target=rgbexp.main, args=(r, g, b))
         p.start()
         p.join()
@@ -61,6 +58,13 @@ class shadowCallbackContainer:
         self.deviceShadowInstance.shadowUpdate(newPayload, None, 5)
         print("Sent.")
 
+    def check_pid(pid):
+        try:
+            os.kill(pid, signal.SIGTERM)
+        except OSError:
+            return False
+        else:
+            return True
 
 # Read in command-line parameters
 parser = argparse.ArgumentParser()
