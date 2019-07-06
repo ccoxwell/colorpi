@@ -43,7 +43,7 @@ class shadowCallbackContainer:
         print(r, g, b)
         # rgbexp.main(r, g, b)
         cmd = "python rgbexp.py %s %s %s" % (r, g, b)
-        os.execl("python", "rgbexp.py", r, g, b)
+        os.execl("python", "rgbexp.py", str(r), str(g), str(b))
         print("Request to update the reported state...")
         newPayload = '{"state":{"reported":' + deltaMessage + '}}'
         self.deviceShadowInstance.shadowUpdate(newPayload, None, 5)
