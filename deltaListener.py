@@ -40,6 +40,7 @@ class shadowCallbackContainer:
         g = rgb["g"]
         b = rgb["b"]
         print(r, g, b)
+        rgbexp.main(r, g, b)
         print("Request to update the reported state...")
         newPayload = '{"state":{"reported":' + deltaMessage + '}}'
         self.deviceShadowInstance.shadowUpdate(newPayload, None, 5)
