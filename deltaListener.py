@@ -51,7 +51,7 @@ class shadowCallbackContainer:
         self.check_pid(pid)
         p = Process(target=rgbexp.main, args=(r, g, b))
         p.start()
-        p.join()
+        p.join(1)
         timestamp = int(round(time.time() * 1000))
         img_filename = "img%s.jpg" % (timestamp)
         print(img_filename)
